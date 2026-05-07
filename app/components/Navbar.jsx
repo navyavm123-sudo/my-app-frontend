@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Heart, User, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -9,17 +8,9 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Navbar({ search, setSearch }) {
   const router = useRouter();
-  const [showGender, setShowGender] = useState(false);
 
   const { wishlist } = useWishlist();
   const { user, logout, loading } = useAuth();
-
-  // Close gender dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = () => setShowGender(false);
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
 
   const handleAuthClick = () => {
     if (user) {
@@ -52,27 +43,6 @@ export default function Navbar({ search, setSearch }) {
       <div className="flex items-center gap-6 text-sm font-medium">
 
         <Link href="/" className="hover:text-black transition">Home</Link>
-
-        {/* GENDER DROPDOWN */}
-        <div className="relative">
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowGender(!showGender);
-            }}
-            className="hover:text-black transition"
-          >
-            Gender ▾
-          </button>
-
-          {showGender && (
-            <div className="absolute mt-2 bg-white shadow-lg rounded-lg w-36 z-50 py-1">
-              <Link href="/male" className="block px-4 py-2 hover:bg-gray-100">Male</Link>
-              <Link href="/female" className="block px-4 py-2 hover:bg-gray-100">Female</Link>
-              <Link href="/kids" className="block px-4 py-2 hover:bg-gray-100">Kids</Link>
-            </div>
-          )}
-        </div>
 
         {/* SELL */}
         <Link
